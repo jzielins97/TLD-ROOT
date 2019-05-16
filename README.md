@@ -1,6 +1,6 @@
 # TLD-ROOT
 
-Jest to kod do tworzenia wykresów z TLD i obliczania współczynnika kalibracji (tego na razie nie jestem pewny, że jest dobrze)
+Jest to kod do tworzenia wykresów z TLD i obliczania współczynnika kalibracji (tego na razie nie jestem pewny czy jest dobrze)
 
 Pliki z danymi zostały zmienione tak aby łatwo się obrabiało je w root
 
