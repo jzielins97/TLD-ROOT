@@ -26,8 +26,6 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
 
   const int nZero[] = {3360, 3620, 2736, 3616};
   const int nTlo[] = {36820, 36388, 36916, 39856};
-  double wspSr[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-  double uWspSr[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
   int w =800; //szerokosc TCanvas
   int h =700; //wysokosc TCanvas
@@ -43,7 +41,11 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
 
   double wsp[36];
   double uWsp[36];
+  double wspSr[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  double uWspSr[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   double suma[64];
+  double hp[64];
+  double uHp[64];
   int nrKalibracji[9];
   int cal=0;
   for(pomiar; pomiar<3; pomiar++){
@@ -137,4 +139,6 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
   wspSredni(36, nrKalibracji, wsp, uWsp, wspSr, uWspSr);
   int tmp[8] = {1, 2, 3, 4, 1, 2, 3, 4};
   table(8, tmp,"Nr Pastylki", "Sr Wsp Kal.", wsp, uWsp);
+  dawka(64, nZero, nTlo, nrKasety, suma, wspSr, uWspSr, hp, uHp);
+  table(64, nrKasety,"Nr Kasety", "Dawka", hp, uHp);
 }
