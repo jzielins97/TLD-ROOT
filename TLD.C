@@ -13,12 +13,12 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
                         11};
 
   //Numer kasetki w kolejnosci występowania w pliku pomiar1 + pomiar2
-  const int nrKasety[] = {20577, 20580, 18237, 20441, 20478, 20578, 20444, 20551,  //20578 = 2 pomiar dla 20577
+  int nrKasety[] = {20577, 20580, 18237, 20441, 20478, 20578, 20444, 20551,  //20578 = 2 pomiar dla 20577
                             10582, 20465, 7809, 20461, 646, 2750, 20589, 9200};
 
   //Numer kasetki w kolejnosci występowania w pliku pomiar0
-  const int nrAnilacji[] = {20478, 646, 20441, 7809, 2750, 20580, 18237, 20577,  //20578 = 2 pomiar dla 20577
-                               20589, 20461, 9200, 20582, 20465, 20551, 20444}; //20443 = 1 anilacja 2044 ()
+  int nrAnilacji[] = {20478, 646, 20441, 7809, 2750, 20580, 18237, 20577,  //20578 = 2 pomiar dla 20577
+                            20589, 20461, 9200, 20582, 20465, 20551, 20444}; //20443 = 1 anilacja 2044 ()
 
   //ilosc przedzialow czasowych w pliku
   const int n0 = 300; //anilacja
@@ -39,6 +39,10 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
     pomiar = 1;
   }
 
+  double wsp[36];
+  double uWsp[36];
+  int nrKalibracji[9];
+  int cal=0;
   for(pomiar; pomiar<3; pomiar++){
     ifstream ifile;
   	ifile.open(infile[pomiar]);
@@ -52,7 +56,6 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
                                  h);
         TLegend *legend = new TLegend(0.73,0.9,0.9,0.75); //ustawienie legendy w prawym górnym rogu
         for(int ij=0; ij<4; ij++){  //dla każdej kasety trzeby zrobić 4 pastylki
-          //TH1D *pastylka = new TH1D(Form("anilacja%d%d", &ii, &ij), "Anilacja", nBins0, 0, 3000);
           TGraph *pastylka = new TGraph(n0);
           int max=0;
           for(int ik=0; ik<n0; ik++){
@@ -75,7 +78,7 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
           else pastylka->Draw("L same");
         }
         legend->Draw();
-        if(SavePng) c->SaveAs(Form("Anilacja%d.png", nrAnilacji[ ii ])); //zapisywanie do pliku
+        if(SavePng) c->SaveAs(Form(".//wykresy//Anilacja%d.png", nrAnilacji[ ii ])); //zapisywanie do pliku
       }
     }else{
       //cout<<endl<<"pomiar"<<endl;
@@ -87,7 +90,6 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
           TLegend *legend = new TLegend(0.73,0.9,0.9,0.75); //ustawienie legendy w prawym górnym rogu
           TGraph *pastylka1 = new TGraph(n1);
           for(int ij=0; ij<4; ij++){ //dla każdej kasety trzeby zrobić 4 pastylki
-            //TH1D *pastylka = new TH1D(Form("anilacja%d%d", &ii, &ij), "Anilacja", nBins0, 0, 3000);
             TGraph *pastylka = new TGraph(n1);
             int max=0;
             int suma = 0;
@@ -97,9 +99,15 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
               ifile>>val;
               pastylka->SetPoint(ik, ik*10, val);
             }
+            double kalibracja;
             double uKalibracji;
-            double wsp=wspKalibracyjny(nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], suma, nZero[ij], nTlo[ij], &uKalibracji);
-            Printf("Kaseta %d wspolczynnik kalibracji=%lf+-%lf",nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], wsp, uKalibracji);
+            if(wspKalibracyjny(nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], suma, nZero[ij], nTlo[ij], kalibracja, uKalibracji ) ){
+              wsp[cal] = kalibracja;
+              uWsp[cal] = uKalibracji;
+              if(cal%4 == 0) nrKalibracji[cal/4] = nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ];
+              cal++;
+            }
+            //Printf("Kaseta %d wspolczynnik kalibracji=%lf+-%lf",nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], wsp, uKalibracji);
             pastylka->SetLineColor(ij+1);
             pastylka->SetTitle(Form("kaseta nr %d", nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ]));
             pastylka->GetXaxis()->SetTitle("Czas [ms]");
@@ -114,11 +122,13 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
             if(ij == 0){
               pastylka->Draw("AL");
               pastylka1 = pastylka;
-            }else pastylka->Draw("L same");
+            }else {} pastylka->Draw("L same");
             legend->Draw();
           }
-          if(SavePng) c->SaveAs(Form("Pamiar%d.png", nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ])); //zapisywanie do pliku
+          if(SavePng) c->SaveAs(Form(".//wykresy//Pamiar%d.png", nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ])); //zapisywanie do pliku
       }
     }
   }
+
+  table(36, nrKalibracji, "Wsp Kalibracji", wsp, uWsp);
 }
