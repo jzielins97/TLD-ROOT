@@ -115,12 +115,14 @@ bool wspKalibracyjny(int nrKasety, int n, int n0, int nT, double &wsp, double &u
 }
 
 void wspSredni(int n, int *nrKasety, double *wsp, double *uWsp, double *wspSr, double *uWspSr){
+  int ng=0;
   for(int i=0; i<n/4; i++){
     if( isGamma(nrKasety[i]) ){
       wspSr[4]+=wsp[i*4];
       wspSr[5]+=wsp[i*4+1];
       wspSr[6]+=wsp[i*4+2];
       wspSr[7]+=wsp[i*4+3];
+      ng++;
     }else{
       wspSr[0]+=wsp[i*4];
       wspSr[1]+=wsp[i*4+1];
@@ -128,7 +130,8 @@ void wspSredni(int n, int *nrKasety, double *wsp, double *uWsp, double *wspSr, d
       wspSr[3]+=wsp[i*4+3];
     }
   }
-  for(int i=0; i<8; i++){ wspSr[i]/=1.0*n;}
+  for(int i=0; i<4; i++){ wspSr[i]/=1.0*(n/4-ng);}
+  for(int i=4; i<8; i++){ wspSr[i]/=1.0*ng;}
   for(int i=0; i<8; i++){uWspSr[i] = 1.0*3*TMath::Power(uWsp[i], 2.0)/n;}
 }
 
