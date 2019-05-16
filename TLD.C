@@ -26,6 +26,8 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
 
   const int nZero[] = {3360, 3620, 2736, 3616};
   const int nTlo[] = {36820, 36388, 36916, 39856};
+  double wspSr[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  double uWspSr[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
   int w =800; //szerokosc TCanvas
   int h =700; //wysokosc TCanvas
@@ -41,6 +43,7 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
 
   double wsp[36];
   double uWsp[36];
+  double suma[64];
   int nrKalibracji[9];
   int cal=0;
   for(pomiar; pomiar<3; pomiar++){
@@ -92,16 +95,16 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
           for(int ij=0; ij<4; ij++){ //dla każdej kasety trzeby zrobić 4 pastylki
             TGraph *pastylka = new TGraph(n1);
             int max=0;
-            int suma = 0;
+            suma[ii*4+ij+(pomiar-1)*4*5] = 0;
             for(int ik=0; ik<n1; ik++){
               int val;
-              if(ik>49) suma+=val;
+              if(ik>49) suma[ii*4+ij+(pomiar-1)*4*5]+=val;
               ifile>>val;
               pastylka->SetPoint(ik, ik*10, val);
             }
             double kalibracja;
             double uKalibracji;
-            if(wspKalibracyjny(nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], suma, nZero[ij], nTlo[ij], kalibracja, uKalibracji ) ){
+            if(wspKalibracyjny(nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], suma[ii*4+ij+(pomiar-1)*4*5], nZero[ij], nTlo[ij], kalibracja, uKalibracji ) ){
               wsp[cal] = kalibracja;
               uWsp[cal] = uKalibracji;
               if(cal%4 == 0) nrKalibracji[cal/4] = nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ];
@@ -130,5 +133,8 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
     }
   }
 
-  table(36, nrKalibracji, "Wsp Kalibracji", wsp, uWsp);
+  table(36, nrKalibracji,"Nr Kasety", "Wsp Kalibracji", wsp, uWsp);
+  wspSredni(36, nrKalibracji, wsp, uWsp, wspSr, uWspSr);
+  int tmp[8] = {1, 2, 3, 4, 1, 2, 3, 4};
+  table(8, tmp,"Nr Pastylki", "Sr Wsp Kal.", wsp, uWsp);
 }
