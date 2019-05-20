@@ -3,6 +3,9 @@
 bool isGamma(int nrKasety){
   bool jest=false;
   switch (nrKasety) {
+    case 2:
+      jest = true;
+      break;
     case 20577: //zero dose
       break;
     case 20580:
@@ -187,8 +190,9 @@ void table (int n, int *nrKasety,const char *iName, const char *xName, double *x
   Printf(" %13s | %15s |  Niepewnosc   ", iName, xName);
   Printf("----------------------------------------------------------");
   for(int i=0; i<n; i++){
-    if( i%4 == 0 ) Printf("%15d|%.10e|%.10e", nrKasety[i/4], x[i], u[i]);
+    if(isGamma(nrKasety[i/4]) && i%4 == 0 ) Printf("%14dG|%.10e|%.10e", nrKasety[i/4], x[i], u[i]);
     else if( i%4 == 0 && nrKasety[i/4] == 7809) Printf("%14d*|%15e|%15e", nrKasety[i/4], x[i], u[i]);
+    else if( i%4 == 0 ) Printf("%14dB|%.10e|%.10e", nrKasety[i/4], x[i], u[i]);
     else Printf("%15s|%.10e|%.10e", "", x[i], u[i]);
   }
   Printf("----------------------------------------------------------");
@@ -198,8 +202,9 @@ void table (int n, int *nrKasety,const char *iName, const char *xName, double *x
   ofile<<Form(" %13s | %15s |  Niepewnosc   ", iName, xName)<<endl;
   ofile<< "----------------------------------------------------------"<<endl;
   for(int i=0; i<n; i++){
-    if( i%4 == 0 ) ofile<<Form("%15d|%.10e|%.10e", nrKasety[i/4], x[i], u[i])<<endl;
+    if(isGamma(nrKasety[i/4]) && i%4 == 0) ofile<<Form("%14dG|%.10e|%.10e", nrKasety[i/4], x[i], u[i])<<endl;
     else if(i%4 == 0 && nrKasety[i/4] == 7809) ofile<<Form("%14d*|%15e|%15e", nrKasety[i/4], x[i], u[i])<<endl;
+    else if( i%4 == 0 ) ofile<<Form("%14dB|%.10e|%.10e", nrKasety[i/4], x[i], u[i])<<endl;
     else ofile<<Form("%15s|%.10e|%.10e", "", x[i], u[i])<<endl;
   }
   ofile<< "----------------------------------------------------------"<<endl;
