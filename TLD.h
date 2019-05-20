@@ -111,7 +111,7 @@ bool wspKalibracyjny(int nrKasety, int n, int n0, int nT, double &wsp, double &u
       jest = true;
       break;
   }
-  u=sqrt(3*TMath::Power((hp/(TMath::Power((n-n0-nT),2.0))),2.0));
+  u=sqrt(3*TMath::Power(150*hp/(TMath::Power((n-n0-nT),2.0)),2.0));
   wsp=1.0*hp/(n-nT-n0);
   //if(jest) cout<<"Kaseta #"<<nrKasety<<" hp="<<hp<<" n="<<n<<" n0="<<n0<<" nT="<<nT<<" Wsp="<<wsp<<" u="<<u<<endl;
   return jest;
@@ -151,19 +151,19 @@ void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, d
         hp[i*4+1]=(n[i*4+1]-n0[1])*wsp[5];
         hp[i*4+2]=(n[i*4+2]-n0[2])*wsp[6];
         hp[i*4+3]=(n[i*4+3]-n0[3])*wsp[7];
-        uHp[i*4]=(n[i*4]-n0[0])*uWsp[0];
-        uHp[i*4+1]=(n[i*4+1]-n0[1])*uWsp[1];
-        uHp[i*4+2]=(n[i*4+2]-n0[2])*uWsp[2];
-        uHp[i*4+3]=(n[i*4+3]-n0[3])*uWsp[3];
+        uHp[i*4]=TMath::Sqrt(TMath::Power((n[i*4]-n0[0])*uWsp[4], 2) + TMath::Power(150*wsp[4],2)+TMath::Power(150*wsp[4], 2));
+        uHp[i*4+1]=TMath::Sqrt(TMath::Power((n[i*4+1]-n0[1])*uWsp[5], 2) + TMath::Power(150*wsp[5],2)+TMath::Power(150*wsp[5], 2));
+        uHp[i*4+2]=TMath::Sqrt(TMath::Power((n[i*4+2]-n0[2])*uWsp[6], 2) + TMath::Power(150*wsp[6],2)+TMath::Power(150*wsp[6], 2));
+        uHp[i*4+3]=TMath::Sqrt(TMath::Power((n[i*4+3]-n0[3])*uWsp[7], 2) + TMath::Power(150*wsp[7],2)+TMath::Power(150*wsp[7], 2));
       }else{
         hp[i*4]=(n[i*4]-n0[0]-nT[0])*wsp[0];
         hp[i*4+1]=(n[i*4+1]-n0[1])*wsp[1];
         hp[i*4+2]=(n[i*4+2]-n0[2])*wsp[2];
         hp[i*4+3]=(n[i*4+3]-n0[3])*wsp[3];
-        uHp[i*4]=(n[i*4]-n0[0])*uWsp[0];
-        uHp[i*4+1]=(n[i*4+1]-n0[1])*uWsp[1];
-        uHp[i*4+2]=(n[i*4+2]-n0[2])*uWsp[2];
-        uHp[i*4+3]=(n[i*4+3]-n0[3])*uWsp[3];
+        uHp[i*4]=TMath::Sqrt(TMath::Power((n[i*4]-n0[0])*uWsp[0], 2) + TMath::Power(150*wsp[0],2)+TMath::Power(150*wsp[0], 2));
+        uHp[i*4+1]=TMath::Sqrt(TMath::Power((n[i*4+1]-n0[1])*uWsp[1], 2) + TMath::Power(150*wsp[1],2)+TMath::Power(150*wsp[1], 2));
+        uHp[i*4+2]=TMath::Sqrt(TMath::Power((n[i*4+2]-n0[2])*uWsp[2], 2) + TMath::Power(150*wsp[2],2)+TMath::Power(150*wsp[2], 2));
+        uHp[i*4+3]=TMath::Sqrt(TMath::Power((n[i*4+3]-n0[3])*uWsp[3], 2) + TMath::Power(150*wsp[3],2)+TMath::Power(150*wsp[3], 2));
       }
     }else{
       if( isGamma(nrKasety[i]) ){
@@ -171,19 +171,19 @@ void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, d
         hp[i*4+1]=(n[i*4+1]-nT[1])*wsp[5];
         hp[i*4+2]=(n[i*4+2]-nT[2])*wsp[6];
         hp[i*4+3]=(n[i*4+3]-nT[3])*wsp[7];
-        uHp[i*4]=(n[i*4]-nT[0])*uWsp[4];;
-        uHp[i*4+1]=(n[i*4+1]-nT[1])*uWsp[4];
-        uHp[i*4+2]=(n[i*4+2]-nT[2])*uWsp[4];
-        uHp[i*4+3]=(n[i*4+3]-nT[3])*uWsp[4];
+        uHp[i*4]=TMath::Sqrt(TMath::Power((n[i*4]-nT[0])*uWsp[4], 2) + TMath::Power(150*wsp[4],2)+TMath::Power(150*wsp[4], 2));
+        uHp[i*4+1]=TMath::Sqrt(TMath::Power((n[i*4+1]-nT[1])*uWsp[5], 2) + TMath::Power(150*wsp[5],2)+TMath::Power(150*wsp[5], 2));
+        uHp[i*4+2]=TMath::Sqrt(TMath::Power((n[i*4+2]-nT[2])*uWsp[6], 2) + TMath::Power(150*wsp[6],2)+TMath::Power(150*wsp[6], 2));
+        uHp[i*4+3]=TMath::Sqrt(TMath::Power((n[i*4+3]-nT[3])*uWsp[7], 2) + TMath::Power(150*wsp[7],2)+TMath::Power(150*wsp[7], 2));
       }else{
         hp[i*4]=(n[i*4]-nT[0])*wsp[0];
         hp[i*4+1]=(n[i*4+1]-nT[1])*wsp[1];
         hp[i*4+2]=(n[i*4+2]-nT[2])*wsp[2];
         hp[i*4+3]=(n[i*4+3]-nT[3])*wsp[3];
-        uHp[i*4]=(n[i*4]-nT[0])*uWsp[0];
-        uHp[i*4+1]=(n[i*4+1]-nT[1])*uWsp[1];
-        uHp[i*4+2]=(n[i*4+2]-nT[2])*uWsp[2];
-        uHp[i*4+3]=(n[i*4+3]-nT[3])*uWsp[3];
+        uHp[i*4]=TMath::Sqrt(TMath::Power((n[i*4]-nT[0])*uWsp[0], 2) + TMath::Power(150*wsp[0],2)+TMath::Power(150*wsp[0], 2));
+        uHp[i*4+1]=TMath::Sqrt(TMath::Power((n[i*4+1]-nT[1])*uWsp[1], 2) + TMath::Power(150*wsp[1],2)+TMath::Power(150*wsp[1], 2));
+        uHp[i*4+2]=TMath::Sqrt(TMath::Power((n[i*4+2]-nT[2])*uWsp[2], 2) + TMath::Power(150*wsp[2],2)+TMath::Power(150*wsp[2], 2));
+        uHp[i*4+3]=TMath::Sqrt(TMath::Power((n[i*4+3]-nT[3])*uWsp[3], 2) + TMath::Power(150*wsp[3],2)+TMath::Power(150*wsp[3], 2));
       }
     }
 
