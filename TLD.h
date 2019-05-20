@@ -142,19 +142,19 @@ void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, d
   for(int i=0; i<nPoints/4; i++){
     if(i<5){
       if( isGamma(nrKasety[i]) ){
-        hp[i*4]=(n[i]-n0[0])*wsp[4];
-        hp[i*4+1]=(n[i+1]-n0[1])*wsp[5];
-        hp[i*4+2]=(n[i+2]-n0[2])*wsp[6];
-        hp[i*4+3]=(n[i+3]-n0[3])*wsp[7];
+        hp[i*4]=(n[i*4]-n0[0])*wsp[4];
+        hp[i*4+1]=(n[i*4+1]-n0[1])*wsp[5];
+        hp[i*4+2]=(n[i*4+2]-n0[2])*wsp[6];
+        hp[i*4+3]=(n[i*4+3]-n0[3])*wsp[7];
         uHp[i*4]=0;
         uHp[i*4+1]=0;
         uHp[i*4+2]=0;
         uHp[i*4+3]=0;
       }else{
-        hp[i*4]=(n[i]-n0[0]-nT[0])*wsp[0];
-        hp[i*4+1]=(n[i+1]-n0[1])*wsp[1];
-        hp[i*4+2]=(n[i+2]-n0[2])*wsp[2];
-        hp[i*4+3]=(n[i+3]-n0[3])*wsp[3];
+        hp[i*4]=(n[i*4]-n0[0]-nT[0])*wsp[0];
+        hp[i*4+1]=(n[i*4+1]-n0[1])*wsp[1];
+        hp[i*4+2]=(n[i*4+2]-n0[2])*wsp[2];
+        hp[i*4+3]=(n[i*4+3]-n0[3])*wsp[3];
         uHp[i*4]=0;
         uHp[i*4+1]=0;
         uHp[i*4+2]=0;
@@ -162,19 +162,19 @@ void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, d
       }
     }else{
       if( isGamma(nrKasety[i]) ){
-        hp[i*4]=(n[i]-nT[0])*wsp[4];
-        hp[i*4+1]=(n[i+1]-nT[1])*wsp[5];
-        hp[i*4+2]=(n[i+2]-nT[2])*wsp[6];
-        hp[i*4+3]=(n[i+3]-nT[3])*wsp[7];
+        hp[i*4]=(n[i*4]-nT[0])*wsp[4];
+        hp[i*4+1]=(n[i*4+1]-nT[1])*wsp[5];
+        hp[i*4+2]=(n[i*4+2]-nT[2])*wsp[6];
+        hp[i*4+3]=(n[i*4+3]-nT[3])*wsp[7];
         uHp[i*4]=0;
         uHp[i*4+1]=0;
         uHp[i*4+2]=0;
         uHp[i*4+3]=0;
       }else{
-        hp[i*4]=(n[i]-nT[0])*wsp[0];
-        hp[i*4+1]=(n[i+1]-nT[1])*wsp[1];
-        hp[i*4+2]=(n[i+2]-nT[2])*wsp[2];
-        hp[i*4+3]=(n[i+3]-nT[3])*wsp[3];
+        hp[i*4]=(n[i*4]-nT[0])*wsp[0];
+        hp[i*4+1]=(n[i*4+1]-nT[1])*wsp[1];
+        hp[i*4+2]=(n[i*4+2]-nT[2])*wsp[2];
+        hp[i*4+3]=(n[i*4+3]-nT[3])*wsp[3];
         uHp[i*4]=0;
         uHp[i*4+1]=0;
         uHp[i*4+2]=0;
