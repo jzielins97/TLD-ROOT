@@ -133,9 +133,14 @@ void wspSredni(int n, int *nrKasety, double *wsp, double *uWsp, double *wspSr, d
       wspSr[3]+=wsp[i*4+3];
     }
   }
-  for(int i=0; i<4; i++){ wspSr[i]/=1.0*(n/4-ng);}
-  for(int i=4; i<8; i++){ wspSr[i]/=1.0*ng;}
-  for(int i=0; i<8; i++){uWspSr[i] = 1.0*3*TMath::Power(uWsp[i], 2.0)/n;}
+  for(int i=0; i<4; i++){
+    wspSr[i]/=1.0*(n/4-ng);
+    uWspSr[i] = 1.0*uWsp[i]*(n/4-ng);
+  }
+  for(int i=4; i<8; i++){
+    wspSr[i]/=1.0*ng;
+    uWspSr[i] = 1.0*uWsp[i]*ng;
+  }
 }
 
 void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, double *wsp, double *uWsp, double *hp, double *uHp){
@@ -146,19 +151,19 @@ void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, d
         hp[i*4+1]=(n[i*4+1]-n0[1])*wsp[5];
         hp[i*4+2]=(n[i*4+2]-n0[2])*wsp[6];
         hp[i*4+3]=(n[i*4+3]-n0[3])*wsp[7];
-        uHp[i*4]=0;
-        uHp[i*4+1]=0;
-        uHp[i*4+2]=0;
-        uHp[i*4+3]=0;
+        uHp[i*4]=(n[i*4]-n0[0])*uWsp[0];
+        uHp[i*4+1]=(n[i*4+1]-n0[1])*uWsp[1];
+        uHp[i*4+2]=(n[i*4+2]-n0[2])*uWsp[2];
+        uHp[i*4+3]=(n[i*4+3]-n0[3])*uWsp[3];
       }else{
         hp[i*4]=(n[i*4]-n0[0]-nT[0])*wsp[0];
         hp[i*4+1]=(n[i*4+1]-n0[1])*wsp[1];
         hp[i*4+2]=(n[i*4+2]-n0[2])*wsp[2];
         hp[i*4+3]=(n[i*4+3]-n0[3])*wsp[3];
-        uHp[i*4]=0;
-        uHp[i*4+1]=0;
-        uHp[i*4+2]=0;
-        uHp[i*4+3]=0;
+        uHp[i*4]=(n[i*4]-n0[0])*uWsp[0];
+        uHp[i*4+1]=(n[i*4+1]-n0[1])*uWsp[1];
+        uHp[i*4+2]=(n[i*4+2]-n0[2])*uWsp[2];
+        uHp[i*4+3]=(n[i*4+3]-n0[3])*uWsp[3];
       }
     }else{
       if( isGamma(nrKasety[i]) ){
@@ -166,19 +171,19 @@ void dawka(int nPoints,const int *n0, const int *nT, int *nrKasety, double *n, d
         hp[i*4+1]=(n[i*4+1]-nT[1])*wsp[5];
         hp[i*4+2]=(n[i*4+2]-nT[2])*wsp[6];
         hp[i*4+3]=(n[i*4+3]-nT[3])*wsp[7];
-        uHp[i*4]=0;
-        uHp[i*4+1]=0;
-        uHp[i*4+2]=0;
-        uHp[i*4+3]=0;
+        uHp[i*4]=(n[i*4]-nT[0])*uWsp[4];;
+        uHp[i*4+1]=(n[i*4+1]-nT[1])*uWsp[4];
+        uHp[i*4+2]=(n[i*4+2]-nT[2])*uWsp[4];
+        uHp[i*4+3]=(n[i*4+3]-nT[3])*uWsp[4];
       }else{
         hp[i*4]=(n[i*4]-nT[0])*wsp[0];
         hp[i*4+1]=(n[i*4+1]-nT[1])*wsp[1];
         hp[i*4+2]=(n[i*4+2]-nT[2])*wsp[2];
         hp[i*4+3]=(n[i*4+3]-nT[3])*wsp[3];
-        uHp[i*4]=0;
-        uHp[i*4+1]=0;
-        uHp[i*4+2]=0;
-        uHp[i*4+3]=0;
+        uHp[i*4]=(n[i*4]-nT[0])*uWsp[0];
+        uHp[i*4+1]=(n[i*4+1]-nT[1])*uWsp[1];
+        uHp[i*4+2]=(n[i*4+2]-nT[2])*uWsp[2];
+        uHp[i*4+3]=(n[i*4+3]-nT[3])*uWsp[3];
       }
     }
 
