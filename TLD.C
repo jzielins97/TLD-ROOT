@@ -27,8 +27,8 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
   const int nZero[] = {3360, 3620, 2736, 3616};
   const int nTlo[] = {36820, 36388, 36916, 39856};
 
-  int w =800; //szerokosc TCanvas
-  int h =700; //wysokosc TCanvas
+  int w =1000; //szerokosc TCanvas
+  int h =1000; //wysokosc TCanvas
   double yTitleOffset = 1.7;  //Wartosc przesuniecia tytułu osi y aby nie nachodziło na numeracje osi
 
 
@@ -66,11 +66,11 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
           for(int ik=0; ik<n0; ik++){
             int val;
             ifile>>val;
-            pastylka->SetPoint(ik, ik*10, val);
+            pastylka->SetPoint(ik, ik*0.1, val);
           }
           pastylka->SetLineColor(ij+1);
           pastylka->SetTitle(Form("kaseta nr %d", nrAnilacji[ii]));
-          pastylka->GetXaxis()->SetTitle("Czas [ms]");
+          pastylka->GetXaxis()->SetTitle("Czas [s]");
           pastylka->GetYaxis()->SetTitle("Liczba zliczen");
           pastylka->GetYaxis()->SetTitleOffset(yTitleOffset); //przesunięcie tytułu osi y aby nie nachodził na numeracje
           legend->AddEntry(pastylka,Form("Pastylka nr %d", ij+1),"l"); //dodanie kolejnego opisu patylki do legendy
@@ -102,7 +102,7 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
               int val;
               if(ik>49) suma[ii*4+ij+(pomiar-1)*4*5]+=val;
               ifile>>val;
-              pastylka->SetPoint(ik, ik*10, val);
+              pastylka->SetPoint(ik, ik*0.1, val);
             }
             double kalibracja;
             double uKalibracji;
@@ -115,7 +115,7 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
             //Printf("Kaseta %d wspolczynnik kalibracji=%lf+-%lf",nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ], wsp, uKalibracji);
             pastylka->SetLineColor(ij+1);
             pastylka->SetTitle(Form("kaseta nr %d", nrKasety[ (pomiar-1)*nKaset[pomiar-1]+ii ]));
-            pastylka->GetXaxis()->SetTitle("Czas [ms]");
+            pastylka->GetXaxis()->SetTitle("Czas [s]");
             pastylka->GetYaxis()->SetTitle("Liczba zliczen");
             pastylka->GetYaxis()->SetTitleOffset(yTitleOffset); //przesunięcie tytułu osi y aby nie nachodził na numeracje
             legend->AddEntry(pastylka,Form("Pastylka nr %d", ij+1),"l"); //dodanie kolejnego opisu patylki do legendy
