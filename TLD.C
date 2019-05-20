@@ -81,6 +81,7 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
             max = pastylka->GetHistogram()->GetMaximum();
             pastylka->GetYaxis()->SetRangeUser(0, 1.1*max); //przedłużenie osi (reskalowanie wykresów)
           }
+          pastylka->GetXaxis()->SetRangeUser(0, n0*0.1);
           if(ij == 0) pastylka->Draw("AL");
           else pastylka->Draw("L same");
         }
@@ -128,6 +129,7 @@ void TLD(int SavePng = 1, int anilacja = 1){ //SavePng = 0 (nie zapisuje), 1 (za
               max = pastylka->GetHistogram()->GetMaximum();
               pastylka1->GetYaxis()->SetRangeUser(0, 1.1*max); //przedłużenie osi (reskalowanie wykresów)
             }
+            pastylka->GetXaxis()->SetRangeUser(0, n1*0.1);
             if(ij == 0){
               pastylka->Draw("AL");
               pastylka1 = pastylka;
